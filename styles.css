@@ -1,0 +1,207 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --backElementColor: blanchedalmond;
+    --backColor: rgba(60, 64, 67, 1);
+    --elementWidth: 100px;
+    --elementHeight: 100px;
+    --draggableContainerBorderRadius: 20%;
+    --N: 2;
+}
+
+.container {
+    margin: 0;
+    background-color: var(--backColor);
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 20vw 60vw 20vw;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.button {
+    background-color: var(--backElementColor);
+    margin: 1rem;
+    width: 12vh;
+    height: 12vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20%;
+    box-shadow: 0 10px #999;
+    font-size: 100%;
+    -webkit-user-select: none;
+    border: 2px solid black
+}
+
+.label {
+    font-size: 100px;
+}
+
+.button:active {
+    transform: translateY(4px);
+    box-shadow: 0 4px #999;
+    color: white;
+    background-color: green;
+}
+
+.switch-container {
+    display: flex;
+    opacity: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.switch {
+    background-color: var(--backElementColor);
+    margin: 1rem;
+    width: 12vh;
+    height: 12vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    border-radius: 20%;
+    box-shadow: 0 8px #999;
+    -webkit-user-select: none;
+}
+
+
+.draggable-container {
+    background-color: var(--backColor);
+    display: grid;
+    grid-template-columns: repeat(var(--N), 1fr);
+    grid-template-rows: repeat(var(--N), 1fr);
+    grid-gap: 1px;
+    grid-row-gap: 1px;
+    border-radius: 1%;
+    border: 1px solid var(--backElementColor);
+}
+
+@media screen and (orientation:portrait) {
+    .draggable-container {
+        width: 60vw;
+        height: 60vw;
+    }
+
+    .button {
+        width: 12vw;
+        height: 12vw;
+    }
+
+    .switch {
+        width: 12vw;
+        height: 12vw;
+    }
+
+    .grid-container {
+        grid-template-columns: 20vw 60vw 20vw;
+    }
+}
+
+@media screen and (orientation:landscape) {
+    .draggable-container {
+        width: 60vh;
+        height: 60vh;
+    }
+
+    .button {
+        width: 12vh;
+        height: 12vh;
+    }
+
+    .switch {
+        width: 12vh;
+        height: 12vh;
+    }
+
+    .grid-container {
+        grid-template-columns: 20vh 60vh 20vh;
+    }
+}
+
+
+.draggable {
+    list-style-type: none;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    background-color: azure;
+    border: 1px solid black;
+    border-radius: 10%;
+}
+
+.draggable.show {
+    animation: resize 300ms;
+}
+
+@keyframes resize {
+    from {
+        width: var(--elementWidth);
+        height: var(--elementHeight);
+    }
+
+    to {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+@keyframes fromCenter {
+    from {
+        border-radius: 100%;
+        height: 0%;
+        width: 0%
+    }
+
+    to {
+        border-radius: 10%;
+        transform-origin: center;
+        height: 100%;
+        width: 100%
+    }
+}
+
+.draggable.dragging {
+    opacity: .5;
+}
+
+.draggable.appended {
+    animation: fromCenter 400ms ease-in;
+}
+
+.draggable.animated {
+    animation: swap 600ms;
+}
+
+@keyframes swap {
+    0% {
+        transform: rotate(0deg) translate(var(--x), var(--y)) rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(180deg) translate(0, 0) rotate(-180deg);
+    }
+}
+
+.draggable.animated-dragging {
+    transform: translateX(var(--x));
+}
